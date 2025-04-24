@@ -1,9 +1,20 @@
+// import { Fragment } from "react";
+import Footer from "../../components/footer/Footer";
 import Header from "../../components/header/Header";
+import Cadastro from "../../components/cadastro/Cadastro";
+import Lista from "../../components/lista/Lista";
 
 const CadastroFilme = () => {
     return(
-        <Header/>
-    );
+        <>
+            <Header/>
+            <main>
+            <Cadastro/>
+            <Lista/>
+            </main>
+            <Footer/>
+        </>
+    )
 }
 
 

@@ -3,7 +3,7 @@ import "./Footer.css"
 const Footer = () => {
     return(
         <footer className="footer">
-        href
+            <p>© 2025 - Projeto Filmes SENAI - Todos os direitos reservados</p>
         </footer>
     )
 }
