@@ -38,8 +38,9 @@
 
 
 .tabela table{
-    width: 100%;
+    /* color: #ffffff; */
     border-collapse: collapse;
+    width: 100%;
 
 }
 
