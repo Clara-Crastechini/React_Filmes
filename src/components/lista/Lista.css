@@ -71,6 +71,18 @@
 }
 
 
+
+.botao_edicao{
+    border: none;
+    background-color: white;
+    transition: 0.3s ease, transform 0.3s ease
+    
+}
+
+.botao_edicao:hover{
+    transform: scale(1.10);
+}
+
 @media screen and (max-width: 768px){
     /* 1px - 768px */
 
