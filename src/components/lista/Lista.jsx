@@ -52,7 +52,7 @@ const Lista = (props) => {
                 </table>
             </div>
 
-            {/* Paginação */}
+            {/* Paginação    */}
             {props.lista && props.lista.length > itensPorPagina && (
                 <div className="paginacao" style={{ marginTop: '1rem', textAlign: 'center' }}>
                     <button onClick={() => setPaginaAtual(prev => Math.max(prev - 1, 1))} disabled={paginaAtual === 1}>
