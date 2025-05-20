@@ -10,16 +10,24 @@ import api from "../../Services/services";
 import Swal from 'sweetalert2';
 
 
+// function() = {} funcao
+// () => {} funcao anonima ou arrow function
+// hooks       funcao    dependencia
+// useEffect( () => {} ,     []     )
+// hooks: Effect(efeito colateral a partir de uma alteracao de estado)
+// funcao:
+// dependencia: Vazio(o efeito acontece na primeira vez que a tela eh "montada" ou quando for recarregada, com dependencia(toda vez que o state sofrer alteracao o efeito acontecera))
+
+
 
 const CadastroGenero = () => {
 
     const [genero, setGenero] = useState("");
     const [listaGenero, setListaGenero] = useState([]);
-    const [itemDelete, setItemDelete] = useState([]);
 
 
-    function alerta(icone, mensagem){
-         // ------------alerta-----------
+    function alertar(icone, mensagem){
+         // ------------alertar-----------
                 const Toast = Swal.mixin({
                     toast: true,
                     position: "top-end",
@@ -38,7 +46,7 @@ const CadastroGenero = () => {
 
 
 
-                // -------fim do alerta---------
+                // -------fim do alertar---------
     }
 
 
@@ -52,15 +60,17 @@ const CadastroGenero = () => {
             try {
                 // cadastrar um genero: post
                 await api.post("genero", { nome: genero });
-                alerta("success", "Cadastro realizado com sucesso!")
+                alertar("success", "Cadastro realizado com sucesso!")
                 setGenero("")
+                // atualiza minha lista assim que cadastrar um novo genero
+                listarGenero();
             } catch (error) {
-                alerta("error", "Entre em contato com o suporte.")
+                alertar("error", "Entre em contato com o suporte.")
                 console.log(error);
 
             }
         } else {
-                alerta("error", "O campo precisa estar preenchido!")
+                alertar("error", "O campo precisa estar preenchido!")
         }
 
 
@@ -89,16 +99,35 @@ const CadastroGenero = () => {
  
 
     // funcao de excluir genero:
-  async function deletarGenero(generoId) {
+async function deletarGenero(generoId) {
         try {
-            await api.delete(`genero/${generoId.idGenero}`);
-            alerta("success", "Gênero excluído com sucesso!");
-            // Atualizar a lista após exclusão
+
+            Swal.fire({
+                title: "Quer exlcuir permanentemente?",
+                text: "Não será possível reverter",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Deletar item"
+            }).then(async (result) => {
+                if (result.isConfirmed) {
+                    // interpolação 
+                    await api.delete(`genero/${generoId.idGenero}`);
+                    alertar("success", "Gênero deletado com sucesso!")
+                    // Swal.fire({
+                    //     title: "Deletado!",
+                    //     text: "Genero deletado com sucesso!",
+                    //     icon: "success"
+                    // });
+                }
+            });
+            listaGenero();
+
         } catch (error) {
-            alerta("error", "Erro ao excluir gênero.");
             console.log(error);
         }
-        listarGenero();
+
     }
 
 
@@ -117,7 +146,7 @@ const CadastroGenero = () => {
     // assim que a pagina reenderizar o metodos listarGenero() sera chamado
     useEffect(() => {
         listarGenero();
-    }, [genero])
+    }, [listaGenero])
 
 
     return (
@@ -146,7 +175,7 @@ const CadastroGenero = () => {
 
                     // atribuir para lista, o meu estado atual:
                     lista = {listaGenero}
-                    funcDeletar = {deletarGenero}
+                    funcExcluir = {deletarGenero}
 
                 />
             </main>
