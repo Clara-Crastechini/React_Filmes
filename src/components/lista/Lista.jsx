@@ -22,7 +22,7 @@ const Lista = (props) => {
                     <thead>
                         <tr className="table_cabecalho">
                             <th>Nome</th>
-                            <th style={{ display: props.visible }}>Genero</th>
+                            <th style={{ display: props.visibilidade }}>Genero</th>
                             <th>Editar</th>
                             <th>Excluir</th>
                         </tr>
@@ -32,9 +32,11 @@ const Lista = (props) => {
                             listaPaginada.map((item) => (
                                 <tr className="item_lista" key={item.idGenero}>
                                     <td data-cell="Nome">{item.nome}</td>
-                                    <td data-cell="Genero" style={{ display: props.visible }}>Comedia</td>
+                                    <td data-cell="Genero" style={{ display: props.visibilidade }}>Comedia</td>
                                     <td data-cell="Editar">
-                                        <img src={Editar} alt="Caneta" />
+                                        <button onClick={() => props.funcEditar(item)} className="botao_edicao">
+                                            <img src={Editar} alt="Caneta" />
+                                        </button>
                                     </td>
                                     <td data-cell="Excluir">
                                         <button onClick={() => props.funcExcluir(item)} className="botao_edicao">

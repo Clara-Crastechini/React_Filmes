@@ -26,27 +26,27 @@ const CadastroGenero = () => {
     const [listaGenero, setListaGenero] = useState([]);
 
 
-    function alertar(icone, mensagem){
-         // ------------alertar-----------
-                const Toast = Swal.mixin({
-                    toast: true,
-                    position: "top-end",
-                    showConfirmButton: false,
-                    timer: 3000,
-                    timerProgressBar: true,
-                    didOpen: (toast) => {
-                        toast.onmouseenter = Swal.stopTimer;
-                        toast.onmouseleave = Swal.resumeTimer;
-                    }
-                });
-                Toast.fire({
-                    icon: icone,
-                    title: mensagem
-                });
+    function alertar(icone, mensagem) {
+        // ------------alertar-----------
+        const Toast = Swal.mixin({
+            toast: true,
+            position: "top-end",
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.onmouseenter = Swal.stopTimer;
+                toast.onmouseleave = Swal.resumeTimer;
+            }
+        });
+        Toast.fire({
+            icon: icone,
+            title: mensagem
+        });
 
 
 
-                // -------fim do alertar---------
+        // -------fim do alertar---------
     }
 
 
@@ -70,7 +70,7 @@ const CadastroGenero = () => {
 
             }
         } else {
-                alertar("error", "O campo precisa estar preenchido!")
+            alertar("error", "O campo precisa estar preenchido!")
         }
 
 
@@ -83,23 +83,23 @@ const CadastroGenero = () => {
     // sincrono => acontece simultaneamente.
     // assincrono => esperar algo/resposta para ir para o proximo bloco de codigo.
 
-     async function listarGenero(){
+    async function listarGenero() {
         try {
             const resposta = await api.get("genero");
             console.log(resposta.data);
-            
+
             setListaGenero(resposta.data);
-            
-        } catch(error){
+
+        } catch (error) {
             console.log(error);
-            
+
         }
     }
 
- 
+
 
     // funcao de excluir genero:
-async function deletarGenero(generoId) {
+    async function deletarGenero(generoId) {
         try {
 
             Swal.fire({
@@ -131,7 +131,30 @@ async function deletarGenero(generoId) {
     }
 
 
-
+    // funcao de editar genero
+    async function editarGenero(generoId) {
+        const { value: novoGenero } = await Swal.fire({
+            title: "Modifique seu gênero",
+            input: "text",
+            inputLabel: "Novo gênero",
+            inputValue: generoId.nome,
+            showCancelButton: true,
+            inputValidator: (value) => {
+                if (!value) {
+                    return "O campo não pode estar vazio!";
+                }
+            }
+        });
+        if (novoGenero) {
+            try {
+                api.put(`genero/${generoId.idGenero}`,
+                    {nome: novoGenero});
+                await Swal.fire(`O gênero modificado ${novoGenero}`);
+            } catch (error) {
+                console.log(error)
+            }
+        }
+    }
 
 
 
@@ -144,9 +167,9 @@ async function deletarGenero(generoId) {
 
 
     // assim que a pagina reenderizar o metodos listarGenero() sera chamado
-    useEffect(() => {
-        listarGenero();
-    }, [listaGenero])
+    // useEffect(() => {
+    //     listarGenero();
+    // }, [listaGenero])
 
 
     return (
@@ -174,8 +197,9 @@ async function deletarGenero(generoId) {
                     visibilidade="none"
 
                     // atribuir para lista, o meu estado atual:
-                    lista = {listaGenero}
-                    funcExcluir = {deletarGenero}
+                    lista={listaGenero}
+                    funcExcluir={deletarGenero}
+                    funcEditar = {editarGenero}
 
                 />
             </main>
