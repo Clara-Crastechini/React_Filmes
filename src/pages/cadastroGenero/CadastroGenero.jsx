@@ -112,7 +112,7 @@ async function deletarGenero(generoId) {
                 confirmButtonText: "Deletar item"
             }).then(async (result) => {
                 if (result.isConfirmed) {
-                    // interpolação 
+                    // interpolação: 
                     await api.delete(`genero/${generoId.idGenero}`);
                     alertar("success", "Gênero deletado com sucesso!")
                     // Swal.fire({
