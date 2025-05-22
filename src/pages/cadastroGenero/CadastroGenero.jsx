@@ -198,6 +198,7 @@ const CadastroGenero = () => {
 
                     // atribuir para lista, o meu estado atual:
                     lista={listaGenero}
+                    tipoLista="genero"
                     funcExcluir={deletarGenero}
                     funcEditar = {editarGenero}
 

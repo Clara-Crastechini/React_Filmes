@@ -74,10 +74,22 @@ const CadastroFilme = () => {
     }
 
 
+    async function listarFilme() {
+        try {
+            const resposta = await api.get("filme");
+            setListaFilme(resposta.data);
+        } catch (error) {
+            console.log(error);
+            
+        }
+    }
+
+
 
 
     useEffect(() => {
         listarGenero();
+        listarFilme();
     }, [])
 
 
@@ -89,7 +101,7 @@ const CadastroFilme = () => {
                     tituloCadastro="Cadastro do FIlme"
                     placeholder="filme"
                     funcCadastro={cadastrarFilme}
-                    lista={listaGenero}
+                        lista={listaGenero}
 
                     valorInput={filme}
                     setValorInput={setFilme}
@@ -99,6 +111,8 @@ const CadastroFilme = () => {
                 />
                 <Lista
                     tituloLista="Filme"
+                    tipoLista="filme"
+                    lista={listaFilme}
                 />
             </main>
             <Footer />
